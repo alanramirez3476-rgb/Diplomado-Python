@@ -14,7 +14,7 @@ ttk.Label(ventana, text="Resultado").place(x=20,y=180)
 ttk.Label(ventana,text="Seleciona la operacion").place(x=20,y=130)
 
 cbCategorias = ttk.Combobox(ventana,state="readonly",values=["Sumar","Restar","Multiplicar","Dividir"])
-cbCategorias.place(x=20,y=200)
+cbCategorias.place(x=20,y=150)
 
 txIngresavalor1 = ttk.Entry(ventana)
 txIngresavalor1.place(x=20,y=50)
@@ -23,13 +23,41 @@ txIngresavalor2 = ttk.Entry(ventana)
 txIngresavalor2.place(x=20,y=100)
 
 txResultado = ttk.Entry(ventana)
-txResultado.place(x=20,y=150)
-
-def Limpiar():
-    pass
+txResultado.place(x=20,y=200)
 
 def Resultado():
-    pass
+
+    try:
+        valor1 = float(txIngresavalor1.get())
+        valor2 = float(txIngresavalor2.get())
+        operacion = cbCategorias.get()
+        if operacion == "Sumar":
+            resultado = valor1 + valor2
+        elif operacion == "Restar":
+            resultado = valor1 - valor2
+        elif operacion == "Multiplicar":
+            resultado = valor1 * valor2
+        elif operacion == "Dividir":
+            if valor2 != 0:
+                resultado = valor1 / valor2
+            else:
+                messagebox.showerror("Error", "No se puede dividir entre cero")
+                return
+        else:
+            messagebox.showerror("Error", "Seleccione una operación válida")
+            return
+        
+        txResultado.delete(0, END)
+        txResultado.insert(0, str(resultado))
+    except ValueError:
+        messagebox.showerror("Error", "Ingrese valores numéricos válidos")
+
+
+def Limpiar():
+    txIngresavalor1.delete(0, END)
+    txIngresavalor2.delete(0, END)
+    txResultado.delete(0, END)
+    cbCategorias.set("")
 
 btLimpiar = ttk.Button(ventana,width=10, text = "Limpiar", command= Limpiar)
 btLimpiar.place(x= 100, y=240)

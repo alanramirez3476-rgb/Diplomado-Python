@@ -1,155 +1,150 @@
 import tkinter as tk
-from tkinter import ttk, messagebox, END
-import math
+from tkinter import messagebox, END
 
 ventana = tk.Tk()
-ventana.config(width=290, height=300)
+ventana.config(width=350, height=300)
 ventana.title("Practica 10")
-textoEtiqueta = "Lado"
-textoEtiqueta2 = ""
 
-var1 = tk.IntVar()
+var1 = tk.BooleanVar()
 var2 = tk.BooleanVar()
-var3 = tk.BooleanVar()
+var3 = tk.IntVar()
 
-ttk.Label(ventana, text="Tipo de Figura").place(x=20, y=20)
-ttk.Label(ventana, text="Tipo de Calculo").place(x=20, y=180)
-ttk.Label(ventana, text="Valores").place(x=160, y=20)
-ttk.Label(ventana, text="Resultados").place(x=160, y=180)
-ttk.Label(ventana, text="Area").place(x=160, y=210)
-ttk.Label(ventana, text="Perimetro").place(x=160, y=240)
+tk.Label(ventana, text="Tipo de Figura").place(x=20, y=0)
+tk.Label(ventana, text="Valores").place(x=150, y=0)
 
-txvalor1 = tk.Entry(ventana, width=10)
-txvalor1.place(x=200, y=50)
-txvalor2 = tk.Entry(ventana, width=10)
-# txvalor2.place(x=200, y=80)
-txresul1 = tk.Entry(ventana, width=10, state="readonly")
-txresul1.place(x=220, y=210)
-txresul2 = tk.Entry(ventana, width=10, state="readonly")
-txresul2.place(x=220, y=240)
+# Cuadrado
+frame_cuadrado = tk.Frame(ventana)
+tk.Label(frame_cuadrado, text="Lado:").grid(row=0, column=0)
+lado_cuadrado = tk.Entry(frame_cuadrado, width=10)
+lado_cuadrado.grid(row=0, column=1)
 
+# Rectángulo
+frame_rectangulo = tk.Frame(ventana)
+tk.Label(frame_rectangulo, text="Base:").grid(row=0, column=0)
+base_rectangulo = tk.Entry(frame_rectangulo, width=10)
+base_rectangulo.grid(row=0, column=1)
+tk.Label(frame_rectangulo, text="Altura:").grid(row=1, column=0)
+altura_rectangulo = tk.Entry(frame_rectangulo, width=10)
+altura_rectangulo.grid(row=1, column=1)
 
-radio1 = tk.Radiobutton(ventana, text="Cuadrado", variable=var1, value=1, command=lambda: calcular(lbtexto, lbtexto2))
-radio1.place(x=20, y=50)
-radio2 = tk.Radiobutton(ventana, text="Triangulo", variable=var1, value=2, command=lambda: calcular(lbtexto, lbtexto2))
-radio2.place(x=20, y=80)
-radio3 = tk.Radiobutton(ventana, text="Rectangulo", variable=var1, value=3, command=lambda: calcular(lbtexto, lbtexto2))
-radio3.place(x=20, y=110)
-radio4 = tk.Radiobutton(ventana, text="Circulo", variable=var1, value=4, command=lambda: calcular(lbtexto, lbtexto2))
-radio4.place(x=20, y=140)
+# Triángulo
+frame_triangulo = tk.Frame(ventana)
+tk.Label(frame_triangulo, text="Base:").grid(row=0, column=0)
+base_triangulo = tk.Entry(frame_triangulo, width=10)
+base_triangulo.grid(row=0, column=1)
+tk.Label(frame_triangulo, text="Altura:").grid(row=1, column=0)
+altura_triangulo = tk.Entry(frame_triangulo, width=10)
+altura_triangulo.grid(row=1, column=1)
 
-check1 = tk.Checkbutton(ventana, text="Area", variable=var2, command=lambda: calcular2())
-check1.place(x=20, y=210)
-check1 = tk.Checkbutton(ventana, text="Perimetro", variable=var3, command=lambda: calcular2())
-check1.place(x=20, y=240)
+# Círculo
+frame_circulo = tk.Frame(ventana)
+tk.Label(frame_circulo, text="Radio:").grid(row=0, column=0)
+radio_circulo = tk.Entry(frame_circulo, width=10)
+radio_circulo.grid(row=0, column=1)
 
-lbtexto = ttk.Label(ventana, text=textoEtiqueta)
-lbtexto.place(x=160, y=50)
-lbtexto2 = ttk.Label(ventana, text=textoEtiqueta2)
-# lbtexto2.place(x=160, y=80)
+def calcular():
+    opcionSel = var3.get()
+    frame_cuadrado.place_forget()
+    frame_rectangulo.place_forget()
+    frame_triangulo.place_forget()
+    frame_circulo.place_forget()
 
+    if opcionSel == 1:
+        frame_cuadrado.place(x=150, y=30)
+    elif opcionSel == 2:
+        frame_triangulo.place(x=150, y=30)
+    elif opcionSel == 3:
+        frame_rectangulo.place(x=150, y=30)
+    elif opcionSel == 4:
+        frame_circulo.place(x=150, y=30)
 
-def calcular(et, et2):
-    opcionSel = var1.get()
+tk.Radiobutton(ventana, text="Cuadrado", variable=var3, value=1, command=calcular).place(x=20, y=30)
+tk.Radiobutton(ventana, text="Triángulo", variable=var3, value=2, command=calcular).place(x=20, y=60)
+tk.Radiobutton(ventana, text="Rectángulo", variable=var3, value=3, command=calcular).place(x=20, y=90)
+tk.Radiobutton(ventana, text="Círculo", variable=var3, value=4, command=calcular).place(x=20, y=120)
 
-    if opcionSel == 1:  # Cuadrado
-        et.config(text="Lado")
-        et2.config(text="")
-        txvalor2.place_forget()
-        txvalor1.place(x=200, y=50)
-        lbtexto2.place_forget()
-    elif opcionSel == 3:  # Rectangulo
-        et.config(text="Base")
-        et2.config(text="Altura")
-        txvalor1.place(x=200, y=50)
-        txvalor2.place(x=200, y=80)
-        lbtexto2.place(x=160, y=80)
-    elif opcionSel == 2:  # Triangulo
-        et.config(text="Base")
-        et2.config(text="Altura")
-        txvalor1.place(x=200, y=50)
-        txvalor2.place(x=200, y=80)
-        lbtexto2.place(x=160, y=80)
-    elif opcionSel == 4:  # Circulo
-        et.config(text="Radio")
-        et2.config(text="")
-        txvalor2.place_forget()
-        txvalor1.place(x=200, y=50)
-        lbtexto2.place_forget()
+tk.Label(ventana, text="Resultados").place(x=20, y=150)
+resultado_area = tk.Label(ventana, text="Área: ---", width=20, anchor="w")
+resultado_area.place(x=20, y=180)
+resultado_perimetro = tk.Label(ventana, text="Perímetro: ---", width=20, anchor="w")
+resultado_perimetro.place(x=20, y=210)
 
-    calcular2()
-
-
-def calcular2():
-    opcionSel = var1.get()
-    calcArea = var2.get()
-    calcPerim = var3.get()
-
+def calcular_area():
+    opcionSel = var3.get()
     try:
-        val1 = float(txvalor1.get())
+        if opcionSel == 1:
+            lado = float(lado_cuadrado.get())
+            area = lado ** 2
+        elif opcionSel == 2:
+            base = float(base_triangulo.get())
+            altura = float(altura_triangulo.get())
+            area = 0.5 * base * altura
+        elif opcionSel == 3:
+            base = float(base_rectangulo.get())
+            altura = float(altura_rectangulo.get())
+            area = base * altura
+        elif opcionSel == 4:
+            radio = float(radio_circulo.get())
+            area = 3.14159 * radio ** 2
+        else:
+            return
+        resultado_area.config(text=f"Área: {area:.2f}")
     except ValueError:
-        val1 = 0
+        messagebox.showerror(message="Por favor, ingresa valores numéricos válidos.")
+
+def calcular_perimetro():
+    opcionSel = var3.get()
     try:
-        val2 = float(txvalor2.get())
+        if opcionSel == 1:
+            lado = float(lado_cuadrado.get())
+            perimetro = 4 * lado
+        elif opcionSel == 2:
+            base = float(base_triangulo.get())
+            altura = float(altura_triangulo.get())
+            perimetro = base + 2 * altura  # Triángulo isósceles
+        elif opcionSel == 3:
+            base = float(base_rectangulo.get())
+            altura = float(altura_rectangulo.get())
+            perimetro = 2 * (base + altura)
+        elif opcionSel == 4:
+            radio = float(radio_circulo.get())
+            perimetro = 2 * 3.14159 * radio
+        else:
+            return
+        resultado_perimetro.config(text=f"Perímetro: {perimetro:.2f}")
     except ValueError:
-        val2 = 0
+        messagebox.showerror(message="Ingresa valor valido.")
 
-    area = 0
-    perimetro = 0
+# Selección de operaciones
+def operacion_select():
+    if var1.get():
+        calcular_area()
+    if var2.get():
+        calcular_perimetro()
+    if not var1.get() and not var2.get():
+        messagebox.showerror(message="Elige un tipo de cálculo")
 
-    if opcionSel == 1:  # Cuadrado
-        area = val1 ** 2
-        perimetro = val1 * 4
-    elif opcionSel == 3:  # Rectangulo
-        area = val1 * val2
-        perimetro = 2 * (val1 + val2)
-    elif opcionSel == 2:  # Triangulo
-        area = (val1 * val2) / 2
-        perimetro = val1 + val2 + math.sqrt(val1*2 + val2*2)
-    elif opcionSel == 4:  # Circulo
-        area = math.pi * val1 ** 2
-        perimetro = 2 * math.pi * val1
+tk.Checkbutton(ventana, text="Área", variable=var1).place(x=250, y=180)
+tk.Checkbutton(ventana, text="Perímetro", variable=var2).place(x=250, y=210)
 
-    txresul1.config(state="normal")
-    txresul2.config(state="normal")
+tk.Button(ventana, text="Calcular", command=operacion_select).place(x=150, y=250)
+tk.Button(ventana, text="Limpiar", command=lambda: limpiar()).place(x=220, y=250)
 
-    if calcArea:
-        txresul1.delete(0, tk.END)
-        txresul1.insert(0, round(area, 2))
-    else:
-        txresul1.delete(0, tk.END)
-
-    if calcPerim:
-        txresul2.delete(0, tk.END)
-        txresul2.insert(0, round(perimetro, 2))
-    else:
-        txresul2.delete(0, tk.END)
-
-    txresul1.config(state="readonly")
-    txresul2.config(state="readonly")
-
-
-# messagebox.showinfo(message= "Escriba un valor valido para el valor 1")
-# messagebox.showinfo(message= "Escriba un valor valido para el valor 2")
-# txvalor1.focus
-
-# except:
-    # if pos ==1:
-    #     messagebox.showinfo(message="Escribe un valor valido para el valor 1")
-    #     txvalor1.focus()
-    #     txvalor1.select_range(0,END)
-    # elif pos == 2:
-    #     messagebox.showinfo(message="Escribe un valor valido para el valor 2")
-    #     txvalor2.focus()
-    #     txvalor2.select_range(0,END)
-    # if act2 == False and act3 == False:
-    #         messagebox.showinfo(message="Selecciona el area o el perimetro")
-    # elif opcionSe2 == False:
-    #     messagebox.showinfo(message="Selecciona una figura")
-
-            
+def limpiar():
+    resultado_area.config(text="Área: ---")
+    resultado_perimetro.config(text="Perímetro: ---")
+    lado_cuadrado.delete(0, END)
+    base_rectangulo.delete(0, END)
+    altura_rectangulo.delete(0, END)
+    base_triangulo.delete(0, END)
+    altura_triangulo.delete(0, END)
+    radio_circulo.delete(0, END)
+    var1.set(False)
+    var2.set(False)
+    var3.set(0)
+    frame_cuadrado.place_forget()
+    frame_rectangulo.place_forget()
+    frame_triangulo.place_forget()
+    frame_circulo.place_forget()
 
 ventana.mainloop()
-
-
-
